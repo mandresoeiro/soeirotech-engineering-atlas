@@ -1,182 +1,161 @@
 # SoeiroTech Engineering Atlas
 
-📋 **Painel de Sinais Organizados (Compacto)**  
-📂[PJ] 🚀[DEV] 📚[STUDY] 💻[CODE] 🧪[TEST] 📄[DOC]
+Plataforma para rastreabilidade de competências, decisões técnicas e evidências em projetos de
+software.
 
-> **Status:** Fundação / v0.1  
-> **Stack:** TypeScript · Next.js · PostgreSQL · Prisma · Docker  
-> **Portas locais reservadas:** Web `3010` · PostgreSQL `5440`
+## Problema
 
-## Objetivo
+Estudar uma tecnologia ou possuir um certificado não demonstra, por si só, onde e como aquela
+competência foi realmente aplicada.
 
-Construir uma plataforma para relacionar **projetos**, **skills**, **decisões arquiteturais** e
-**evidências profissionais**.
+## Solução
 
-O projeto não existe para copiar disciplinas ou aulas. O estudo fornece conceitos; o produto
-fornece problemas reais onde esses conceitos podem ser aplicados.
+O Engineering Atlas organiza a evolução técnica pelo fluxo:
+
+```text
+Project
+-> Skill
+-> Contexto
+-> Evidence
+```
+
+O produto também registra `ArchitectureDecision` para conectar decisões técnicas ao contexto do
+projeto.
+
+O Atlas demonstra onde uma competência foi aplicada, em qual contexto, quais evidências comprovam
+essa aplicação e quais decisões técnicas foram tomadas.
+
+## Funcionalidades atuais
+
+- Projects CRUD inicial;
+- Skills CRUD inicial;
+- Project ↔ Skill;
+- contexto de aplicação;
+- Evidence v1;
+- dashboard;
+- showcase inicial;
+- health check;
+- validação com Zod;
+- testes Vitest;
+- build de produção validado;
+- smoke tests HTTP.
+
+## Em desenvolvimento / roadmap
+
+- Playwright E2E;
+- GitHub Actions;
+- CRUD de ArchitectureDecision;
+- Evidence Graph;
+- refinamento do Showcase;
+- deploy público.
+
+## Stack
+
+Tecnologias atuais:
+
+- TypeScript;
+- Next.js;
+- React;
+- PostgreSQL;
+- Prisma;
+- Docker;
+- Zod;
+- Vitest.
+
+Próximos passos:
+
+- Playwright;
+- GitHub Actions.
 
 ## Arquitetura
 
 ```text
 Browser
-   ↓
-Next.js
-   ↓
-Regras / módulos
-   ↓
-Prisma
-   ↓
-PostgreSQL
+-> Next.js
+-> regras da aplicação
+-> Prisma
+-> PostgreSQL
 ```
 
-A arquitetura inicial é um **modular monolith**. Uma API NestJS separada só deve ser criada se um
-requisito real justificar o custo adicional.
+A arquitetura é um **Modular Monolith** com Next.js como aplicação full stack.
 
-## Estrutura
+- Arquitetura: [docs/02-architecture/architecture.md](docs/02-architecture/architecture.md)
+- ADR-001: [docs/04-decisions/ADR-001-modular-monolith.md](docs/04-decisions/ADR-001-modular-monolith.md)
+
+## Modelo de domínio
 
 ```text
-.
-├── .github/              # CI, agentes, prompts e instruções
-├── .vscode/              # workspace, tarefas e snippets
-├── docs/                 # produto, arquitetura, ADRs, qualidade e showcase
-├── prisma/               # schema e seed
-├── src/
-│   ├── app/              # App Router
-│   ├── components/
-│   └── lib/
-├── tests/e2e/
-├── AGENTS.md
-├── compose.yaml
-├── Dockerfile
-└── prisma.config.ts
+Project
+-> ProjectSkill
+-> Skill
+
+Project
+-> Evidence
+
+Project
+-> ArchitectureDecision
 ```
 
-## Subir com Docker
+`ProjectSkill` registra o contexto em que uma `Skill` foi aplicada em um `Project`.
 
-### 1. Criar o `.env`
+## Estrutura do repositório
 
-No Linux/WSL:
+- `src/`: aplicação Next.js, componentes e regras da aplicação;
+- `prisma/`: schema, migrations e seed;
+- `tests/`: testes automatizados e próximos fluxos E2E;
+- `docs/`: documentação oficial do produto, arquitetura, dados, qualidade e TCC;
+- `study/`: organização de estudos e aprendizado aplicado;
+- `scripts/`: scripts auxiliares do projeto.
+
+## Executando localmente
+
+Docker Compose é o caminho principal para executar o ambiente local.
 
 ```bash
 cp .env.example .env
-```
-
-No PowerShell:
-
-```powershell
-Copy-Item .env.example .env
-```
-
-### 2. Subir os containers
-
-```bash
 docker compose up --build -d
 ```
 
-### 3. Ver logs
-
-```bash
-docker compose logs -f web
-```
-
-### 4. Criar a primeira migration
-
-```bash
-docker compose exec web npm run db:migrate -- --name init
-```
-
-### 5. Seed
-
-```bash
-docker compose exec web npm run db:seed
-```
-
-### 6. Abrir
-
-- Aplicação: `http://localhost:3010`
-- Showcase: `http://localhost:3010/showcase`
-- Health: `http://localhost:3010/api/health`
-- PostgreSQL no host: `localhost:5440`
-
-## Desenvolvimento sem Docker para o Node
-
-Se preferir executar somente o PostgreSQL no Docker, ajuste `DATABASE_URL` para `localhost:5440`,
-instale as dependências e rode:
-
-```bash
-npm install
-npm run db:generate
-npm run dev
-```
-
-## Qualidade
-
-```bash
-npm run lint
-npm run typecheck
-npm test
-npm run build
-```
-
-E2E:
-
-```bash
-npx playwright install chromium
-npm run test:e2e
-```
-
-## Prisma
-
-```bash
-npm run db:generate
-npm run db:migrate -- --name nome-da-migration
-npm run db:seed
-npm run db:studio
-```
-
-O projeto está configurado no padrão atual do Prisma 7, com URL do datasource em
-`prisma.config.ts`, e não dentro de `schema.prisma`.
-
-## VS Code
-
-Snippets:
-
-- `stamp` → carimbo digital;
-- `adr` → Architecture Decision Record;
-- `devlog` → registro de desenvolvimento;
-- `nsc` → Server Component;
-- `zschema` → schema Zod;
-- `vtest` → teste Vitest.
-
-Agentes:
-
-- **Arquiteto**
-- **Implementador**
-- **Revisor**
-- **Mentor**
-
-Prompts:
-
-- `/planejar-feature`
-- `/revisar-mudanca`
-- `/criar-adr`
-- `/explicar-mudanca`
-
-## GitHub: privado + amostra pública
-
-Estratégia sugerida:
+Web:
 
 ```text
-🔒 soeirotech-engineering-atlas
-   código completo e histórico real
-
-🌎 soeirotech-engineering-atlas-showcase
-   README, arquitetura, screenshots, decisões e link de demonstração
+http://localhost:3010
 ```
 
-Este repositório já possui a rota `/showcase` para servir como base da apresentação pública.
+Health:
 
-## Próximo passo
+```text
+http://localhost:3010/api/health
+```
 
-A primeira feature deve ser **Projetos**, não autenticação, notificações ou outras camadas
-corporativas. Primeiro validar o domínio central; depois evoluir.
+## Validação
+
+Já foram validados:
+
+- Prisma generate;
+- migration/seed;
+- TypeScript/build;
+- Vitest;
+- smoke HTTP;
+- health check.
+
+## Documentação
+
+- [docs/README.md](docs/README.md)
+- [docs/INDEX.md](docs/INDEX.md)
+- [docs/02-architecture/architecture.md](docs/02-architecture/architecture.md)
+- [docs/04-decisions/ADR-001-modular-monolith.md](docs/04-decisions/ADR-001-modular-monolith.md)
+- [docs/06-project/roadmap.md](docs/06-project/roadmap.md)
+- [study/README.md](study/README.md)
+
+## Próximo ciclo
+
+- validar o fluxo Project -> Skill -> Contexto -> Evidence;
+- implementar Playwright E2E;
+- adicionar GitHub Actions;
+- evoluir ArchitectureDecision;
+- evoluir Showcase/Evidence Graph.
+
+## Status
+
+Projeto em desenvolvimento ativo.

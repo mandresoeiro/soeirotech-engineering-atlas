@@ -42,12 +42,25 @@ src/app/evidences/
 src/lib/validations/
 ```
 
-## Ainda falta validar manualmente como usuário
+## Validação concluída
 
-- [ ] criar/selecionar Project;
-- [ ] associar Skill;
-- [ ] registrar contexto;
-- [ ] criar Evidence;
-- [ ] conferir o relacionamento no detalhe.
+O fluxo foi validado manualmente e posteriormente automatizado com
+Playwright E2E.
 
-Esse fluxo é candidato prioritário para Playwright E2E.
+- [x] criar/selecionar Project;
+- [x] associar Skill;
+- [x] registrar contexto;
+- [x] criar Evidence;
+- [x] conferir o relacionamento no detalhe;
+- [x] automatizar o fluxo com Playwright.
+
+A principal aprendizagem foi compreender que o teste E2E valida o
+comportamento integrado do fluxo pela perspectiva do usuário, enquanto
+os testes de níveis inferiores continuam responsáveis por validar
+partes menores da aplicação.
+
+Referências da validação:
+
+- Issue #1
+- PR #2
+- `tests/e2e/project-skill-evidence.spec.ts`

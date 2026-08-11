@@ -29,7 +29,7 @@ cd soeirotech-engineering-atlas
 Execute:
 
 ```bash
-./abrir-engineering-atlas.sh
+./scripts/abrir-engineering-atlas.sh
 ```
 
 O script faz automaticamente:
@@ -125,7 +125,7 @@ Ctrl + C
 Quando quiser testar a base inteira:
 
 ```bash
-./validate-engineering-atlas-v3.sh
+./scripts/validate-engineering-atlas-v3.sh
 ```
 
 Ele verifica:
@@ -160,7 +160,7 @@ Abrir WSL
 ↓
 cd soeirotech-engineering-atlas
 ↓
-./abrir-engineering-atlas.sh
+./scripts/abrir-engineering-atlas.sh
 ↓
 http://localhost:3010/
 ```
@@ -168,7 +168,7 @@ http://localhost:3010/
 ## ✅ Comando principal
 
 ```bash
-./abrir-engineering-atlas.sh
+./scripts/abrir-engineering-atlas.sh
 ```
 
 Esse é o comando principal para retomar o projeto.

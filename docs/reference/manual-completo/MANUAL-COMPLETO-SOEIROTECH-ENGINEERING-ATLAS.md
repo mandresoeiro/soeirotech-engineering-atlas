@@ -431,7 +431,7 @@ soeirotech-engineering-atlas/
 ├── prisma.config.ts
 ├── package.json
 ├── README.md
-└── SETUP.md
+└── docs/06-project/setup.md
 ```
 
 ## 7.1 `src/`

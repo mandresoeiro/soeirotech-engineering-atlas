@@ -8,7 +8,7 @@
 ## Integração
 
 - **Conforme necessidade:** validar fluxos que dependam de banco, Prisma ou composição entre
-módulos.
+  módulos.
 - `/api/health` valida aplicação e conexão com o banco.
 
 ## E2E
@@ -24,7 +24,8 @@ módulos.
 
 ## CI
 
-- **Planejado:** GitHub Actions para lint, typecheck, testes e build.
+- **Existente:** GitHub Actions executa geração do Prisma Client, migrations do banco de CI,
+  lint, typecheck, Vitest, build e Playwright E2E.
 
 ## Critérios de prioridade
 

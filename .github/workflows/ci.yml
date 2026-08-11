@@ -43,6 +43,9 @@ jobs:
       - name: Generate Prisma Client
         run: npm run db:generate
 
+      - name: Apply database migrations
+        run: npm run db:migrate:deploy
+
       - name: Lint
         run: npm run lint
 
@@ -54,3 +57,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: npm run test:e2e

@@ -13,8 +13,8 @@ módulos.
 
 ## E2E
 
-- **Planejado:** Playwright para fluxos públicos ou críticos.
-- Fluxo prioritário: **Project -> Skill -> Contexto -> Evidence**.
+- **Existente:** Playwright para o fluxo **Project -> Skill -> Contexto -> Evidence**.
+- **Planejado:** ampliar Playwright para outros fluxos públicos ou críticos.
 
 ## Smoke/Health
 

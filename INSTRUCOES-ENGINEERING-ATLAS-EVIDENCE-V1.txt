@@ -1,0 +1,76 @@
+SOEIROTECH ENGINEERING ATLAS — SRC V2 / EVIDENCE V1
+
+ENTREGA
+- Dashboard refinado
+- Projects
+- Skills
+- ProjectSkill com contexto
+- Evidence v1 completo:
+  - listar
+  - criar
+  - detalhes
+  - editar
+  - excluir
+  - associar a Project
+  - associar opcionalmente a Skill já vinculada ao Project
+- Showcase
+- Health
+- loading state
+- navegação responsiva
+- validação Zod
+- testes de schemas Vitest
+
+SEGURANÇA ANTES DE SUBSTITUIR
+1. Na raiz do projeto:
+   mv src src-backup
+
+2. Extraia o ZIP na raiz do projeto.
+   O ZIP contém a pasta src/.
+
+3. Gere novamente o Prisma Client:
+   docker compose exec web npx prisma generate
+
+4. Reinicie:
+   docker compose restart web
+
+TESTE DE COMPILAÇÃO / QUALIDADE
+5. Rode:
+   docker compose exec web npm run build
+
+6. Se package.json tiver scripts de lint/test:
+   docker compose exec web npm run lint
+   docker compose exec web npm test -- --run
+
+TESTE HTTP PELO TERMINAL
+7. Rode:
+   docker compose exec web sh -lc '
+   for route in / /projects /skills /evidences /showcase /health /api/health; do
+     echo "===== $route ====="
+     wget -S -O- "http://localhost:3000$route" 2>&1 | head -n 8
+     echo
+   done
+   '
+
+TESTE NO NAVEGADOR
+- http://localhost:3010/
+- http://localhost:3010/projects
+- http://localhost:3010/skills
+- http://localhost:3010/evidences
+- http://localhost:3010/showcase
+- http://localhost:3010/health
+
+FLUXO FUNCIONAL PRINCIPAL
+Project
+→ Gerenciar skills
+→ associar Skill
+→ registrar contexto
+→ ProjectSkill
+→ Nova evidência
+→ associar ao Project
+→ opcionalmente associar à Skill aplicada
+→ Evidence
+
+OBSERVAÇÃO SOBRE EvidenceType
+Evidence v1 cria registros com type = OTHER.
+Esse valor já está confirmado pelo seed atual e evita inventar valores do enum
+que ainda não foram confirmados no schema.prisma.

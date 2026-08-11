@@ -1,0 +1,69 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: engineering-atlas-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-engineering_atlas}
+      POSTGRES_USER: ${POSTGRES_USER:-atlas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-atlas_dev_password}
+    ports:
+      - "${POSTGRES_PORT:-5440}:5432"
+    volumes:
+      - engineering_atlas_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-atlas} -d ${POSTGRES_DB:-engineering_atlas}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    networks:
+      - engineering-atlas
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: engineering-atlas-web
+    restart: unless-stopped
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      APP_NAME: ${APP_NAME:-SoeiroTech Engineering Atlas}
+      APP_URL: ${APP_URL:-http://localhost:3010}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://atlas:atlas_dev_password@db:5432/engineering_atlas?schema=public}
+    ports:
+      - "${WEB_PORT:-3010}:3000"
+    volumes:
+      - .:/app
+      - engineering_atlas_node_modules:/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "
+      npm install &&
+      npm run db:generate &&
+      npm run dev
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/api/health >/dev/null 2>&1 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - engineering-atlas
+
+volumes:
+  engineering_atlas_pgdata:
+  engineering_atlas_node_modules:
+
+networks:
+  engineering-atlas:
+    driver: bridge

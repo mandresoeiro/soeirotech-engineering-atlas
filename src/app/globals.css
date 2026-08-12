@@ -2,6 +2,87 @@
 
 :root {
   color-scheme: dark;
+
+  /* =========================
+     Colors — Base
+     ========================= */
+
+  --color-background: #050b14;
+  --color-background-elevated: #07111f;
+
+  --color-surface: #0f172a;
+  --color-surface-subtle: rgba(15, 23, 42, 0.5);
+  --color-surface-hover: #172033;
+
+  --color-border: #1e293b;
+  --color-border-strong: #334155;
+
+  /* =========================
+     Colors — Text
+     ========================= */
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+  --color-text-subtle: #64748b;
+
+  /* =========================
+     Colors — Brand
+     ========================= */
+
+  --color-brand: #3b82f6;
+  --color-brand-hover: #2563eb;
+  --color-brand-soft: rgba(59, 130, 246, 0.14);
+  --color-brand-text: #60a5fa;
+
+  /* =========================
+     Colors — Semantic
+     ========================= */
+
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #38bdf8;
+
+  /* =========================
+     Typography
+     ========================= */
+
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* =========================
+     Radius
+     ========================= */
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  /* =========================
+     Shadows
+     ========================= */
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 0.2);
+  --shadow-lg: 0 18px 50px rgb(0 0 0 / 0.28);
+
+  /* =========================
+     Focus
+     ========================= */
+
+  --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.35);
+
+  /* =========================
+     Motion
+     ========================= */
+
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
 }
 
 * {
@@ -9,23 +90,28 @@
 }
 
 html {
-  background: #050b14;
+  background: var(--color-background);
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+
   background:
     radial-gradient(circle at 85% -10%, rgba(37, 99, 235, 0.16), transparent 28rem),
     radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.06), transparent 24rem),
-    linear-gradient(180deg, #07111f 0%, #050b14 100%);
-  color: #f8fafc;
-  font-family: Arial, Helvetica, sans-serif;
+    linear-gradient(180deg, var(--color-background-elevated) 0%, var(--color-background) 100%);
+
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
   background: rgba(59, 130, 246, 0.45);
+  color: var(--color-text-primary);
 }
 
 a {
@@ -44,17 +130,45 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 input,
 textarea,
 select {
-  color: #f8fafc;
+  color: var(--color-text-primary);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: #64748b;
+  color: var(--color-text-subtle);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
 summary::-webkit-details-marker {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

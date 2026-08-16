@@ -31,13 +31,13 @@ export function MobileNavigationDrawer({
       <button
         type="button"
         aria-label="Fechar navegação"
-        className="absolute inset-0 bg-slate-950/75"
+        className="absolute inset-0 z-0 bg-slate-950/75"
         onClick={onClose}
       />
 
       <aside
         aria-label="Navegação principal"
-        className="relative flex h-full w-72 max-w-[calc(100vw-2rem)] flex-col border-r border-slate-800 bg-slate-950 p-4 shadow-2xl"
+        className="fixed inset-y-0 left-0 z-10 flex h-full w-72 max-w-[calc(100vw-2rem)] flex-col overflow-y-auto border-r border-slate-800 bg-slate-950 p-4 shadow-2xl"
       >
         <div className="flex min-h-12 items-center justify-between gap-4">
           <div className="font-semibold leading-tight">

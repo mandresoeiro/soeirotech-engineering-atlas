@@ -46,7 +46,9 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
   ).toBeVisible();
 
   await page.goto(`${projectUrl}/skills`);
-  await page.getByLabel("Skill").selectOption({ label: skillName });
+  await page.getByRole("combobox", { name: "Skill" }).selectOption({
+    label: skillName,
+  });
   await page.getByLabel("Contexto de aplicação").fill(context);
   await page.getByRole("button", { name: "Associar skill" }).click();
 
@@ -58,7 +60,9 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
 
   await page.getByLabel("Título").fill(evidenceTitle);
   await page.getByLabel("Descrição").fill(evidenceDescription);
-  await page.getByLabel("Projeto").selectOption({ label: projectName });
+  await page.getByRole("combobox", { name: "Projeto" }).selectOption({
+    label: projectName,
+  });
   await page
     .getByLabel(/Skill relacionada/)
     .selectOption({ label: skillName });

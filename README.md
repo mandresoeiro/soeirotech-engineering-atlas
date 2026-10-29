@@ -31,7 +31,7 @@ essa aplicação e quais decisões técnicas foram tomadas.
 - Skills CRUD inicial;
 - Project ↔ Skill;
 - contexto de aplicação;
-- Evidence v1;
+- evidências com tipo e fonte opcional (HTTP/HTTPS), sem validação automática do conteúdo;
 - dashboard;
 - showcase inicial;
 - health check;
@@ -42,8 +42,7 @@ essa aplicação e quais decisões técnicas foram tomadas.
 
 ## Em desenvolvimento / roadmap
 
-- Playwright E2E;
-- GitHub Actions;
+- ampliar a cobertura Playwright E2E e acompanhar o CI existente;
 - CRUD de ArchitectureDecision;
 - Evidence Graph;
 - refinamento do Showcase;
@@ -62,10 +61,12 @@ Tecnologias atuais:
 - Zod;
 - Vitest.
 
-Próximos passos:
+Qualidade configurada:
 
-- Playwright;
-- GitHub Actions.
+- Playwright E2E;
+- GitHub Actions (lint, typecheck, testes, build e E2E).
+
+A presença da configuração não substitui a verificação de cada execução.
 
 ## Arquitetura
 
@@ -151,11 +152,21 @@ Já foram validados:
 ## Próximo ciclo
 
 - validar o fluxo Project -> Skill -> Contexto -> Evidence;
-- implementar Playwright E2E;
-- adicionar GitHub Actions;
+- ampliar os testes E2E existentes e verificar o CI;
+- validar fontes de evidência no uso real;
 - evoluir ArchitectureDecision;
 - evoluir Showcase/Evidence Graph.
 
 ## Status
 
 Projeto em desenvolvimento ativo.
+
+## Próxima evolução e IA
+
+O Atlas é o produto principal para conectar projeto, competência, contexto e evidência.
+O ciclo atual melhora fontes e tipos de evidência sem adicionar novas bibliotecas.
+Não há agente de IA implementado. A proposta e os critérios para investir nele estão em
+[ADR-002](docs/04-decisions/ADR-002-evidence-sources-before-agents.md).
+
+A aplicação de gestão ainda não possui autenticação e autorização de usuários; mantenha-a
+local até implementar esse controle. A apresentação no portfólio pode ser publicada separadamente.

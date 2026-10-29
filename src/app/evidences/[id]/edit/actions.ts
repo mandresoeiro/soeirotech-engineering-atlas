@@ -6,11 +6,10 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { evidenceSchema } from "@/lib/validations/evidence";
 
-export async function updateEvidence(
-  id: string,
-  formData: FormData,
-) {
+export async function updateEvidence(id: string, formData: FormData) {
   const data = evidenceSchema.parse({
+    type: formData.get("type"),
+    url: formData.get("url"),
     title: formData.get("title"),
     description: formData.get("description"),
     projectId: formData.get("projectId"),
@@ -46,9 +45,7 @@ export async function updateEvidence(
     });
 
     if (!projectSkill) {
-      redirect(
-        `/evidences/${id}/edit?invalidSkill=1`,
-      );
+      redirect(`/evidences/${id}/edit?invalidSkill=1`);
     }
   }
 
@@ -57,6 +54,8 @@ export async function updateEvidence(
       id,
     },
     data: {
+      type: data.type,
+      url: data.url ?? null,
       title: data.title,
       description: data.description ?? null,
       projectId: data.projectId,

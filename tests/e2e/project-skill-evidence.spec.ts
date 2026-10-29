@@ -2,14 +2,11 @@ import { expect, test } from "@playwright/test";
 
 test.setTimeout(90_000);
 
-test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
-  page,
-}) => {
+test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({ page }) => {
   const uniqueId = Date.now();
   const projectName = `E2E Project Skill Evidence ${uniqueId}`;
   const skillName = `E2E Skill ${uniqueId}`;
-  const context =
-    "Skill aplicada no fluxo E2E para validar contexto entre projeto e evidência.";
+  const context = "Skill aplicada no fluxo E2E para validar contexto entre projeto e evidência.";
   const evidenceTitle = `E2E Evidence ${uniqueId}`;
   const evidenceDescription =
     "Evidência criada pelo Playwright para validar a rastreabilidade do fluxo.";
@@ -23,16 +20,12 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
     .fill("Projeto criado pelo Playwright para validar o fluxo E2E.");
   await page.getByRole("button", { name: "Criar projeto" }).click();
 
-  await expect(
-    page.getByRole("heading", { name: projectName }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: projectName })).toBeVisible();
 
   const projectUrl = page.url();
 
   await page.getByRole("link", { name: "Gerenciar skills" }).click();
-  await expect(
-    page.getByRole("heading", { name: projectName }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: projectName })).toBeVisible();
 
   await page.getByRole("link", { name: "Criar nova skill" }).click();
   await page.getByLabel("Nome").fill(skillName);
@@ -41,9 +34,7 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
     .fill("Skill criada pelo Playwright para o fluxo de evidência.");
   await page.getByRole("button", { name: "Criar skill" }).click();
 
-  await expect(
-    page.getByRole("heading", { name: skillName }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: skillName })).toBeVisible();
 
   await page.goto(`${projectUrl}/skills`);
   await page.getByRole("combobox", { name: "Skill" }).selectOption({
@@ -59,18 +50,36 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({
   await page.getByRole("link", { name: "Nova evidência" }).click();
 
   await page.getByLabel("Título").fill(evidenceTitle);
+  await page.getByLabel("Tipo de evidência").selectOption("TEST");
+  await page
+    .getByLabel("Link da fonte")
+    .fill("https://github.com/mandresoeiro/soeirotech-engineering-atlas/actions");
   await page.getByLabel("Descrição").fill(evidenceDescription);
   await page.getByRole("combobox", { name: "Projeto" }).selectOption({
     label: projectName,
   });
-  await page
-    .getByLabel(/Skill relacionada/)
-    .selectOption({ label: skillName });
+  await page.getByLabel(/Skill relacionada/).selectOption({ label: skillName });
   await page.getByRole("button", { name: "Criar evidência" }).click();
 
-  await expect(
-    page.getByRole("heading", { name: evidenceTitle }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: evidenceTitle })).toBeVisible();
   await expect(page.getByText(projectName)).toBeVisible();
   await expect(page.getByText(skillName)).toBeVisible();
+  await expect(page.getByRole("link", { name: "Abrir fonte da evidência" })).toHaveAttribute(
+    "href",
+    "https://github.com/mandresoeiro/soeirotech-engineering-atlas/actions",
+  );
+  await page.getByRole("link", { name: "Editar", exact: true }).click();
+  await expect(page.getByLabel("Tipo de evidência")).toHaveValue("TEST");
+  await page.getByLabel("Tipo de evidência").selectOption("DEPLOY");
+  await page.getByLabel("Link da fonte").fill("https://soeirotech.com.br/");
+  await page.getByRole("button", { name: "Salvar alterações" }).click();
+  await expect(page.getByRole("link", { name: "Abrir fonte da evidência" })).toHaveAttribute(
+    "href",
+    "https://soeirotech.com.br/",
+  );
+  await page.getByRole("link", { name: "Editar", exact: true }).click();
+  await page.getByLabel("Link da fonte").fill("");
+  await page.getByRole("button", { name: "Salvar alterações" }).click();
+  await expect(page.getByText("Sem fonte vinculada.", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Abrir fonte da evidência" })).toHaveCount(0);
 });

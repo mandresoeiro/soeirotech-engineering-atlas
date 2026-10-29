@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { EvidenceSourceFields } from "@/components/evidence-source-fields";
 import { Eyebrow } from "@/components/ui";
 import { prisma } from "@/lib/prisma";
 
@@ -13,9 +14,7 @@ type NewEvidencePageProps = {
   }>;
 };
 
-export default async function NewEvidencePage({
-  searchParams,
-}: NewEvidencePageProps) {
+export default async function NewEvidencePage({ searchParams }: NewEvidencePageProps) {
   const query = await searchParams;
 
   const [projects, skills] = await Promise.all([
@@ -38,21 +37,15 @@ export default async function NewEvidencePage({
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <Link
-        href="/evidences"
-        className="text-sm text-blue-400 hover:underline"
-      >
+      <Link href="/evidences" className="text-sm text-blue-400 hover:underline">
         ← Evidências
       </Link>
 
       <header className="mt-8">
         <Eyebrow>Evidence v1</Eyebrow>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight">
-          Nova evidência
-        </h1>
+        <h1 className="mt-2 text-4xl font-bold tracking-tight">Nova evidência</h1>
         <p className="mt-3 leading-7 text-slate-400">
-          Registre algo concreto que demonstre o trabalho realizado no
-          projeto.
+          Registre algo concreto que demonstre o trabalho realizado no projeto.
         </p>
       </header>
 
@@ -82,10 +75,7 @@ export default async function NewEvidencePage({
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="description" className="mb-2 block text-sm font-medium">
             Descrição
           </label>
           <textarea
@@ -97,11 +87,10 @@ export default async function NewEvidencePage({
           />
         </div>
 
+        <EvidenceSourceFields />
+
         <div>
-          <label
-            htmlFor="projectId"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="projectId" className="mb-2 block text-sm font-medium">
             Projeto
           </label>
 
@@ -125,10 +114,7 @@ export default async function NewEvidencePage({
         </div>
 
         <div>
-          <label
-            htmlFor="skillId"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="skillId" className="mb-2 block text-sm font-medium">
             Skill relacionada <span className="text-slate-500">(opcional)</span>
           </label>
 
@@ -148,15 +134,9 @@ export default async function NewEvidencePage({
           </select>
 
           <p className="mt-2 text-xs leading-5 text-slate-500">
-            Se escolher uma skill, ela precisa estar previamente associada ao
-            projeto em “Gerenciar skills”.
+            Se escolher uma skill, ela precisa estar previamente associada ao projeto em “Gerenciar
+            skills”.
           </p>
-        </div>
-
-        <div className="rounded-xl border border-blue-950 bg-blue-950/20 p-4 text-sm leading-6 text-blue-200">
-          Nesta versão, a evidência é registrada com o tipo <strong>OTHER</strong>.
-          Isso mantém compatibilidade com o enum já confirmado no seed. Depois
-          podemos ampliar os tipos sem arriscar o schema atual.
         </div>
 
         <div className="flex flex-wrap gap-3">
@@ -167,10 +147,7 @@ export default async function NewEvidencePage({
             Criar evidência
           </button>
 
-          <Link
-            href="/evidences"
-            className="rounded-xl border border-slate-700 px-5 py-3"
-          >
+          <Link href="/evidences" className="rounded-xl border border-slate-700 px-5 py-3">
             Cancelar
           </Link>
         </div>

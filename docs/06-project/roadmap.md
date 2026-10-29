@@ -45,7 +45,7 @@
 - [x] excluir;
 - [x] relacionar com Project;
 - [x] relação opcional com Skill;
-- [ ] tipos de evidência mais completos;
+- [x] seleção dos tipos existentes e fonte HTTP/HTTPS opcional;
 - [ ] filtros.
 
 ## 4 — Qualidade ⏳
@@ -54,9 +54,9 @@
 - [x] Vitest — schemas;
 - [x] build validado;
 - [x] health e rotas HTTP;
-- [ ] Playwright E2E;
+- [x] fluxo E2E configurado (revalidar execução em cada entrega);
 - [ ] testes de integração;
-- [ ] GitHub Actions.
+- [x] GitHub Actions configurado (acompanhar resultados);
 
 ## 5 — Architecture Decisions ⏳
 

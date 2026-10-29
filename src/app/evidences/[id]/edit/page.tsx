@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { EvidenceSourceFields } from "@/components/evidence-source-fields";
 import { Eyebrow } from "@/components/ui";
 import { prisma } from "@/lib/prisma";
 
@@ -15,10 +16,7 @@ type EditEvidencePageProps = {
   }>;
 };
 
-export default async function EditEvidencePage({
-  params,
-  searchParams,
-}: EditEvidencePageProps) {
+export default async function EditEvidencePage({ params, searchParams }: EditEvidencePageProps) {
   const { id } = await params;
   const query = await searchParams;
 
@@ -44,31 +42,22 @@ export default async function EditEvidencePage({
     notFound();
   }
 
-  const updateEvidenceWithId = updateEvidence.bind(
-    null,
-    evidence.id,
-  );
+  const updateEvidenceWithId = updateEvidence.bind(null, evidence.id);
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-12">
-      <Link
-        href={`/evidences/${evidence.id}`}
-        className="text-sm text-blue-400 hover:underline"
-      >
+      <Link href={`/evidences/${evidence.id}`} className="text-sm text-blue-400 hover:underline">
         ← Voltar
       </Link>
 
       <header className="mt-8">
         <Eyebrow>Evidence v1</Eyebrow>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight">
-          Editar evidência
-        </h1>
+        <h1 className="mt-2 text-4xl font-bold tracking-tight">Editar evidência</h1>
       </header>
 
       {query.invalidSkill === "1" && (
         <div className="mt-6 rounded-xl border border-amber-800 bg-amber-950/20 p-4 text-sm text-amber-300">
-          A skill escolhida precisa estar vinculada ao projeto antes de ser
-          usada nesta evidência.
+          A skill escolhida precisa estar vinculada ao projeto antes de ser usada nesta evidência.
         </div>
       )}
 
@@ -90,10 +79,7 @@ export default async function EditEvidencePage({
         </div>
 
         <div>
-          <label
-            htmlFor="description"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="description" className="mb-2 block text-sm font-medium">
             Descrição
           </label>
           <textarea
@@ -105,11 +91,10 @@ export default async function EditEvidencePage({
           />
         </div>
 
+        <EvidenceSourceFields type={evidence.type} url={evidence.url} />
+
         <div>
-          <label
-            htmlFor="projectId"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="projectId" className="mb-2 block text-sm font-medium">
             Projeto
           </label>
           <select
@@ -128,10 +113,7 @@ export default async function EditEvidencePage({
         </div>
 
         <div>
-          <label
-            htmlFor="skillId"
-            className="mb-2 block text-sm font-medium"
-          >
+          <label htmlFor="skillId" className="mb-2 block text-sm font-medium">
             Skill relacionada <span className="text-slate-500">(opcional)</span>
           </label>
           <select

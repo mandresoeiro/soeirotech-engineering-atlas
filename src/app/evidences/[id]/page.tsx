@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { Eyebrow, StatCard } from "@/components/ui";
+import { evidenceTypeLabels } from "@/lib/evidence-types";
+import { evidenceSourceSchema } from "@/lib/validations/evidence";
 import { prisma } from "@/lib/prisma";
 
 import { DeleteEvidenceButton } from "../delete-evidence-button";
@@ -14,9 +16,7 @@ type EvidencePageProps = {
   }>;
 };
 
-export default async function EvidencePage({
-  params,
-}: EvidencePageProps) {
+export default async function EvidencePage({ params }: EvidencePageProps) {
   const { id } = await params;
 
   const evidence = await prisma.evidence.findUnique({
@@ -33,26 +33,22 @@ export default async function EvidencePage({
     notFound();
   }
 
+  const source = evidenceSourceSchema.safeParse(evidence.url);
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
-      <Link
-        href="/evidences"
-        className="text-sm text-blue-400 hover:underline"
-      >
+      <Link href="/evidences" className="text-sm text-blue-400 hover:underline">
         ← Evidências
       </Link>
 
       <header className="mt-8">
-        <Eyebrow>{evidence.type}</Eyebrow>
+        <Eyebrow>{evidenceTypeLabels[evidence.type]}</Eyebrow>
 
         <div className="mt-2 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold tracking-tight">
-              {evidence.title}
-            </h1>
+            <h1 className="text-4xl font-bold tracking-tight">{evidence.title}</h1>
             <p className="mt-2 text-sm text-slate-500">
-              Registrada em{" "}
-              {evidence.createdAt.toLocaleDateString("pt-BR")}
+              Registrada em {evidence.createdAt.toLocaleDateString("pt-BR")}
             </p>
           </div>
 
@@ -64,10 +60,7 @@ export default async function EvidencePage({
               Editar
             </Link>
 
-            <DeleteEvidenceButton
-              id={evidence.id}
-              title={evidence.title}
-            />
+            <DeleteEvidenceButton id={evidence.id} title={evidence.title} />
           </div>
         </div>
 
@@ -77,6 +70,32 @@ export default async function EvidencePage({
           </p>
         </div>
       </header>
+
+      <section
+        aria-label="Fonte da evidência"
+        className="mt-6 rounded-2xl border border-slate-800 p-6"
+      >
+        <h2 className="font-semibold">Fonte da evidência</h2>
+        {source.success ? (
+          <>
+            <a
+              href={source.data}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex text-blue-400 underline underline-offset-4"
+            >
+              Abrir fonte da evidência ↗
+            </a>
+            <p className="mt-2 text-sm text-slate-400">
+              Link cadastrado pelo autor; o conteúdo não foi verificado automaticamente.
+            </p>
+          </>
+        ) : (
+          <p className="mt-3 text-sm text-slate-400">
+            Sem fonte vinculada. Edite o registro para adicionar um link verificável.
+          </p>
+        )}
+      </section>
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2">
         <Link href={`/projects/${evidence.project.id}`}>
@@ -89,18 +108,10 @@ export default async function EvidencePage({
 
         {evidence.skill ? (
           <Link href={`/skills/${evidence.skill.id}`}>
-            <StatCard
-              label="Skill"
-              value={evidence.skill.name}
-              helper="Abrir skill relacionada"
-            />
+            <StatCard label="Skill" value={evidence.skill.name} helper="Abrir skill relacionada" />
           </Link>
         ) : (
-          <StatCard
-            label="Skill"
-            value="—"
-            helper="Nenhuma skill específica vinculada"
-          />
+          <StatCard label="Skill" value="—" helper="Nenhuma skill específica vinculada" />
         )}
       </section>
     </main>

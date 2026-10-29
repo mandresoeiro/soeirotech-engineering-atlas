@@ -8,6 +8,8 @@ import { evidenceSchema } from "@/lib/validations/evidence";
 
 export async function createEvidence(formData: FormData) {
   const data = evidenceSchema.parse({
+    type: formData.get("type"),
+    url: formData.get("url"),
     title: formData.get("title"),
     description: formData.get("description"),
     projectId: formData.get("projectId"),
@@ -41,17 +43,16 @@ export async function createEvidence(formData: FormData) {
     });
 
     if (!projectSkill) {
-      redirect(
-        `/evidences/new?projectId=${data.projectId}&invalidSkill=1`,
-      );
+      redirect(`/evidences/new?projectId=${data.projectId}&invalidSkill=1`);
     }
   }
 
   const evidence = await prisma.evidence.create({
     data: {
+      type: data.type,
+      url: data.url ?? null,
       title: data.title,
       description: data.description ?? null,
-      type: "OTHER",
       projectId: data.projectId,
       skillId: data.skillId ?? null,
     },

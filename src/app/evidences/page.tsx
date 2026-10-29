@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { EmptyState, Eyebrow } from "@/components/ui";
+import { evidenceTypeLabels } from "@/lib/evidence-types";
 import { prisma } from "@/lib/prisma";
 
 import { DeleteEvidenceButton } from "./delete-evidence-button";
@@ -23,12 +24,10 @@ export default async function EvidencesPage() {
       <header className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <Eyebrow>Engineering Atlas</Eyebrow>
-          <h1 className="mt-2 text-4xl font-bold tracking-tight">
-            Evidências
-          </h1>
+          <h1 className="mt-2 text-4xl font-bold tracking-tight">Evidências</h1>
           <p className="mt-3 max-w-2xl leading-7 text-slate-400">
-            Registros que demonstram resultados concretos: implementação,
-            testes, documentação, entregas e outros artefatos profissionais.
+            Registros que demonstram resultados concretos: implementação, testes, documentação,
+            entregas e outros artefatos profissionais.
           </p>
         </div>
 
@@ -64,11 +63,9 @@ export default async function EvidencesPage() {
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">
-                      {evidence.type}
+                      {evidenceTypeLabels[evidence.type]}
                     </p>
-                    <h2 className="mt-2 text-xl font-semibold">
-                      {evidence.title}
-                    </h2>
+                    <h2 className="mt-2 text-xl font-semibold">{evidence.title}</h2>
                   </div>
 
                   <time className="text-xs text-slate-500">
@@ -107,10 +104,7 @@ export default async function EvidencesPage() {
                     Editar
                   </Link>
 
-                  <DeleteEvidenceButton
-                    id={evidence.id}
-                    title={evidence.title}
-                  />
+                  <DeleteEvidenceButton id={evidence.id} title={evidence.title} />
                 </div>
               </article>
             ))}

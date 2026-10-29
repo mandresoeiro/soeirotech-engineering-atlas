@@ -102,3 +102,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Local PostgreSQL data (never commit)
+.local/

@@ -1,10 +1,4 @@
-export type IconName =
-  | "dashboard"
-  | "projects"
-  | "skills"
-  | "evidences"
-  | "showcase"
-  | "health";
+export type IconName = "dashboard" | "projects" | "skills" | "evidences" | "showcase" | "health";
 
 export const navigationGroups: Array<{
   label: string;
@@ -16,19 +10,19 @@ export const navigationGroups: Array<{
 }> = [
   {
     label: "Visão geral",
-    items: [{ href: "/", label: "Dashboard", icon: "dashboard" }],
+    items: [{ href: "/", label: "Painel", icon: "dashboard" }],
   },
   {
     label: "Trabalho",
     items: [
       { href: "/projects", label: "Projetos", icon: "projects" },
-      { href: "/skills", label: "Skills", icon: "skills" },
+      { href: "/skills", label: "Competências", icon: "skills" },
       { href: "/evidences", label: "Evidências", icon: "evidences" },
-      { href: "/showcase", label: "Showcase", icon: "showcase" },
+      { href: "/showcase", label: "Vitrine", icon: "showcase" },
     ],
   },
   {
     label: "Sistema",
-    items: [{ href: "/health", label: "Health", icon: "health" }],
+    items: [{ href: "/health", label: "Status do sistema", icon: "health" }],
   },
 ];

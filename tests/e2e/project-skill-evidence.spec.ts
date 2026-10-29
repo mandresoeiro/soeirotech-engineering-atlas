@@ -24,7 +24,13 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({ page })
 
   const projectUrl = page.url();
 
-  await page.getByRole("link", { name: "Gerenciar skills" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Próximos passos da documentação" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Associar a primeira competência e explicar seu uso" }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Gerenciar competências" }).click();
   await expect(page.getByRole("heading", { name: projectName })).toBeVisible();
 
   await page.getByRole("link", { name: "Criar nova skill" }).click();
@@ -82,4 +88,8 @@ test("valida o fluxo Project -> Skill -> Contexto -> Evidence", async ({ page })
   await page.getByRole("button", { name: "Salvar alterações" }).click();
   await expect(page.getByText("Sem fonte vinculada.", { exact: false })).toBeVisible();
   await expect(page.getByRole("link", { name: "Abrir fonte da evidência" })).toHaveCount(0);
+  await page.goto(projectUrl);
+  await expect(page.getByRole("link", { name: /Revisar 1 evidência/ })).toBeVisible();
+  await expect(page.getByText("Fonte ainda não informada")).toBeVisible();
+  await expect(page.getByRole("link", { name: `Abrir fonte: ${evidenceTitle}` })).toHaveCount(0);
 });

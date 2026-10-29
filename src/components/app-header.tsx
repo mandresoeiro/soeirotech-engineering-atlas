@@ -11,7 +11,7 @@ function getCurrentSection(pathname: string) {
   }
 
   if (pathname.startsWith("/skills")) {
-    return "Skills";
+    return "Competências";
   }
 
   if (pathname.startsWith("/evidences")) {
@@ -19,14 +19,14 @@ function getCurrentSection(pathname: string) {
   }
 
   if (pathname.startsWith("/showcase")) {
-    return "Showcase";
+    return "Vitrine";
   }
 
   if (pathname.startsWith("/health")) {
-    return "Health";
+    return "Status do sistema";
   }
 
-  return "Dashboard";
+  return "Painel";
 }
 
 export function AppHeader() {

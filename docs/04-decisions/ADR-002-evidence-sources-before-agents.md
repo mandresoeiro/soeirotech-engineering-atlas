@@ -55,3 +55,9 @@ Lint passou com um aviso preexistente em postcss.config.mjs. A auditoria npm inf
 vulnerabilidades na instalação atual; isso não equivale a uma auditoria de segurança do produto.
 Docker Desktop falhou ao iniciar nesta máquina. O fluxo E2E foi ampliado, mas sua execução
 local com PostgreSQL ficou pendente. O CI existente inclui PostgreSQL e Playwright.
+
+## Confirmação no GitHub
+
+A execução CI #23 passou com PostgreSQL, migrations, lint, typecheck, testes unitários, build e Playwright E2E, incluindo criação, edição e remoção da fonte.
+
+Evidência: https://github.com/mandresoeiro/soeirotech-engineering-atlas/actions/runs/40880809288

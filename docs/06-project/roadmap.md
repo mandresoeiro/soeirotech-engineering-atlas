@@ -23,7 +23,7 @@
 - [x] editar;
 - [x] status;
 - [x] arquivar;
-- [ ] filtros e busca.
+- [x] busca por nome/descrição e filtro por situação.
 
 ## 2 — Skills ✅
 
